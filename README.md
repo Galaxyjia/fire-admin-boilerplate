@@ -44,6 +44,17 @@ r.GET("json", func(c *gin.Context) {
 			"code": 200,
 		}
 
+		// 方法2: gin.H
+		data := gin.H{
+			"data": gin.H{
+				"name":    "galaxy",
+				"message": "hello world",
+				"age":     18,
+			},
+			"msg":  "返回成功",
+			"code": 200,
+		}
+
 		c.JSON(http.StatusOK, data)
 	})
 ```

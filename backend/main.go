@@ -13,8 +13,19 @@ func main() {
 
 	r.GET("json", func(c *gin.Context) {
 		// 方法1：使用map
-		data := map[string]interface{}{
-			"data": map[string]interface{}{
+		// data := map[string]interface{}{
+		// 	"data": map[string]interface{}{
+		// 		"name":    "galaxy",
+		// 		"message": "hello world",
+		// 		"age":     18,
+		// 	},
+		// 	"msg":  "返回成功",
+		// 	"code": 200,
+		// }
+
+		// 方法2: gin.H
+		data := gin.H{
+			"data": gin.H{
 				"name":    "galaxy",
 				"message": "hello world",
 				"age":     18,
@@ -22,6 +33,8 @@ func main() {
 			"msg":  "返回成功",
 			"code": 200,
 		}
+
+		// 方法3: 结构体
 
 		c.JSON(http.StatusOK, data)
 	})
