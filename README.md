@@ -2,10 +2,12 @@
 
 cd backend
 
-## 初始化go项目
+## 初始化 go 项目
+
 go mod init fire-admin-boilerplate
 
-## 创建main.go
+## 创建 main.go
+
 ```
 package main
 
@@ -26,11 +28,12 @@ func main() {
 
 ## 执行 go mod tidy 加载模块
 
-## 执行 go run main.go 
+## 执行 go run main.go
+
 访问 localhost:8080/ping
 
+## json 返回
 
-## json返回
 ```
 r.GET("json", func(c *gin.Context) {
 		// 方法1：使用map
@@ -53,6 +56,17 @@ r.GET("json", func(c *gin.Context) {
 			},
 			"msg":  "返回成功",
 			"code": 200,
+		}
+
+	// 方法3: 结构体
+		type User struct {
+			Name string `json:"name"`
+			Age  int    `json:"age"`
+		}
+
+		data := &User{
+			Name: "galaxy",
+			Age:  18,
 		}
 
 		c.JSON(http.StatusOK, data)
