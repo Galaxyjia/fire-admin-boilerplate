@@ -29,3 +29,21 @@ func main() {
 ## 执行 go run main.go 
 访问 localhost:8080/ping
 
+
+## json返回
+```
+r.GET("json", func(c *gin.Context) {
+		// 方法1：使用map
+		data := map[string]interface{}{
+			"data": map[string]interface{}{
+				"name":    "galaxy",
+				"message": "hello world",
+				"age":     18,
+			},
+			"msg":  "返回成功",
+			"code": 200,
+		}
+
+		c.JSON(http.StatusOK, data)
+	})
+```
