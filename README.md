@@ -72,3 +72,99 @@ r.GET("json", func(c *gin.Context) {
 		c.JSON(http.StatusOK, data)
 	})
 ```
+
+## 结构体指针
+
+```
+func main(){
+    type Person struct {
+        name  string
+        age int
+    }
+    p1 := &Person{name: "wbw", age: 18}
+    fmt.Println((*p1).name)
+    fmt.Println(p1.name) //隐式解引用
+
+    p2 := Person{name: "wbw", age: 18}
+    fmt.Println(p2.name)
+
+    p3 := p1
+    fmt.Println(p3.name)
+    p4 := p2
+    fmt.Println(p4.name)
+
+    p3.name = "sdfsd"
+    fmt.Println((*p1).name)
+    fmt.Println(p1.name)
+    fmt.Println(p3.name)
+
+    p4.name = "sdfsdss"
+    fmt.Println(p2.name)
+    fmt.Println(p4.name)
+}
+
+当结构体原型（p1）获取的是结构体指针，那么当它给另一个成员赋值（p3）时，p3的改动会导致p1同时改动。就是说此时p1, p3共同指向一个结构体地址
+当结构体原型（p2）获取的只是普通结构体时，那么当它给另一个成员赋值（p4）时，p4的改动不会导致p2的改动。就是说此时p2，p4不是指向同一个结构体地址
+当结构体原型（p1）获取的是结构体指针，那么它可以用指针获取成员变量（(*p1).name），也可以使用隐式解引用（p1.name即可获取成员变量）。
+```
+
+## 获取参数
+### 获取查询参数(Query string parameters)
+```
+func ping(c *gin.Context) {
+	firstname := c.DefaultQuery("firstname", "Guest")
+	lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
+	c.JSON(200, gin.H{
+		"message":   "pong",
+		"firstname": firstname,
+		"lastname":  lastname,
+	})
+}
+
+### 访问
+http://localhost:8080/ping?firstname=galaxy&&lastname=guo
+
+```
+### 获取路径参数(Parameters in path)
+```
+func ping(c *gin.Context) {
+	id := c.Param("id")
+	firstname := c.DefaultQuery("firstname", "Guest")
+	lastname := c.Query("lastname") 
+	c.JSON(200, gin.H{
+		"code":    200,
+		"message": "pong",
+		"data": gin.H{
+			"id":        id,
+			"firstname": firstname,
+			"lastname":  lastname,
+		},
+	})
+}
+```
+
+
+## 数据库链接
+```
+go get -u gorm.io/gorm
+
+sqlite数据库
+go get -u gorm.io/driver/sqlite
+```
+
+## 引入gorm.Model
+```
+type User struct {
+	gorm.Model
+	Name string `json:"name"`
+	Age  int    `json:"age"`
+}
+
+main()中加入
+
+	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+```

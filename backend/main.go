@@ -5,11 +5,29 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
+type User struct {
+	gorm.Model
+	Name string `json:"name"`
+	Age  int    `json:"age"`
+}
+
 func main() {
+	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	// Migrate the schema
+	//自动迁移数据库
+	db.AutoMigrate(&User{})
+
 	r := gin.Default()
-	r.GET("/ping", ping)
+	r.GET("/ping/:id", ping)
+	// r.GET("/ping/:id", ping)
 	r.GET("json", func(c *gin.Context) {
 		// 方法1：使用map
 		// data := map[string]interface{}{
@@ -32,12 +50,8 @@ func main() {
 		// }
 
 		// 方法3: 结构体
-		type User struct {
-			Name string `json:"name"`
-			Age  int    `json:"age"`
-		}
 
-		data := &User{
+		data := User{
 			Name: "galaxy",
 			Age:  18,
 		}
@@ -68,6 +82,7 @@ func main() {
 			})
 		})
 		adminRouters.POST("/users", func(c *gin.Context) {
+
 			c.JSON(200, gin.H{
 				"message": "add users",
 			})
@@ -86,6 +101,13 @@ func main() {
 
 	apiRouters := r.Group("/api/v1")
 	{
+		apiRouters.GET("/search", func(c *gin.Context) {
+
+			c.JSON(200, gin.H{
+				"message": "search list",
+			})
+		})
+
 		apiRouters.GET("/users", func(c *gin.Context) {
 			c.JSON(200, gin.H{
 				"message": "users list",
@@ -147,7 +169,16 @@ func main() {
 }
 
 func ping(c *gin.Context) {
+	id := c.Param("id")
+	firstname := c.DefaultQuery("firstname", "Guest")
+	lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
 	c.JSON(200, gin.H{
+		"code":    200,
 		"message": "pong",
+		"data": gin.H{
+			"id":        id,
+			"firstname": firstname,
+			"lastname":  lastname,
+		},
 	})
 }
