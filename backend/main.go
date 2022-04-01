@@ -3,18 +3,41 @@ package main
 import (
 	"backend/model"
 	"backend/router"
+	"fmt"
+	"os/exec"
 )
 
-type User struct {
-	ID        string `json:"id"`
-	FirstName string `json:"firstname"`
-	LastName  string `json:"lastname"`
-	Age       int    `json:"age"`
+func runCommand() {
+	cmd := exec.Command("swag", "init")
+	fmt.Println("Cmd", cmd.Args)
+	// var out bytes.Buffer
+	// cmd.Stdout = &out
+	// cmd.Stderr = os.Stderr
+	err := cmd.Start()
+	if err != nil {
+		fmt.Println(err)
+	}
+	// fmt.Println(out.String())
 }
 
-// var DB *gorm.DB
+// @title           Golang-Admin-Boilerpalte Api
+// @version         1.0
+// @description     后端admin模版api
+// @termsOfService  http://swagger.io/terms/
 
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8080
+// @BasePath  /api/v1
+
+// @securityDefinitions.basic  BasicAuth
 func main() {
+	runCommand()
 	// 全局DB,注意不能用 DB,err := (这里为局部变量)
 	// DB, _ = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 

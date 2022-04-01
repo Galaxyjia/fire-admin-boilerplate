@@ -1,10 +1,15 @@
 package router
 
 import (
+	"backend/docs"
 	"backend/service"
 	"fmt"
 
+	_ "backend/docs"
+
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func Router() *gin.Engine {
@@ -14,8 +19,10 @@ func Router() *gin.Engine {
 	// 	panic(err)
 	// }
 	// fmt.Println(model.DB)
+	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	r := gin.Default()
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.GET("/routers", func(c *gin.Context) {
 		routers := r.Routes()
 		l := []string{}
