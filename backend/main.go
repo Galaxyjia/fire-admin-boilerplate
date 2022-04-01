@@ -31,7 +31,8 @@ func main() {
 	DB.AutoMigrate(&User{})
 
 	r := gin.Default()
-	r.GET("/ping/:id", ping)
+	r.GET("/ping/:id", pingGet)
+	r.POST("/ping", pingCreate)
 	// r.GET("/ping/:id", ping)
 	r.GET("json", func(c *gin.Context) {
 		// 方法1：使用map
@@ -174,7 +175,7 @@ func main() {
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
 
-func ping(c *gin.Context) {
+func pingGet(c *gin.Context) {
 	id := c.Param("id")
 	firstname := c.DefaultQuery("firstname", "Guest")
 	lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
@@ -188,6 +189,32 @@ func ping(c *gin.Context) {
 			"id":        id,
 			"firstname": firstname,
 			"lastname":  lastname,
+		},
+	})
+}
+
+func pingCreate(c *gin.Context) {
+	// id := c.Param("id")
+	// firstname := c.DefaultQuery("firstname", "Guest")
+	// lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
+	// user := User{ID: id, FirstName: firstname, Age: 18, LastName: lastname}
+	// DB.Create(&user)
+	var user User
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	DB.Create(User{ID: user.ID, FirstName: user.FirstName, Age: user.Age, LastName: user.LastName})
+
+	c.JSON(200, gin.H{
+		"code":    200,
+		"message": "pong",
+		"data": gin.H{
+			"id":        user.ID,
+			"firstname": user.FirstName,
+			"lastname":  user.LastName,
 		},
 	})
 }

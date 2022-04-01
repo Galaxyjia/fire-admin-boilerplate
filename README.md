@@ -143,7 +143,6 @@ func ping(c *gin.Context) {
 }
 ```
 
-
 ## 数据库链接
 ```
 go get -u gorm.io/gorm
@@ -165,4 +164,60 @@ main()中加入
 	if err != nil {
 		panic("failed to connect database")
 	}
+```
+
+## 全局数据库
+```
+// 全局DB,注意不能用 DB,err := (这里为局部变量)
+	DB, _ = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+```
+
+## 新增用户
+```
+func ping(c *gin.Context) {
+	id := c.Param("id")
+	firstname := c.DefaultQuery("firstname", "Guest")
+	lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
+	user := User{ID: id, FirstName: firstname, Age: 18, LastName: lastname}
+	DB.Create(&user)
+
+	c.JSON(200, gin.H{
+		"code":    200,
+		"message": "pong",
+		"data": gin.H{
+			"id":        id,
+			"firstname": firstname,
+			"lastname":  lastname,
+		},
+	})
+}
+```
+
+## 绑定body,json
+```
+func pingCreate(c *gin.Context) {
+	// id := c.Param("id")
+	// firstname := c.DefaultQuery("firstname", "Guest")
+	// lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
+	// user := User{ID: id, FirstName: firstname, Age: 18, LastName: lastname}
+	// DB.Create(&user)
+	var user User
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	DB.Create(User{ID: user.ID, FirstName: user.FirstName, Age: user.Age, LastName: user.LastName})
+
+	c.JSON(200, gin.H{
+		"code":    200,
+		"message": "pong",
+		"data": gin.H{
+			"id":        user.ID,
+			"firstname": user.FirstName,
+			"lastname":  user.LastName,
+		},
+	})
+}
 ```
