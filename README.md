@@ -161,10 +161,8 @@ type User struct {
 }
 
 main()中加入
-
 	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
-
 ```

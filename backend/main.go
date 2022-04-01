@@ -10,20 +10,25 @@ import (
 )
 
 type User struct {
-	gorm.Model
-	Name string `json:"name"`
-	Age  int    `json:"age"`
+	ID        string `json:"id"`
+	FirstName string `json:"firstname"`
+	LastName  string `json:"lastname"`
+	Age       int    `json:"age"`
 }
 
+var DB *gorm.DB
+
 func main() {
-	db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
-	if err != nil {
-		panic("failed to connect database")
-	}
+	// 全局DB,注意不能用 DB,err := (这里为局部变量)
+	DB, _ = gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+
+	// if err != nil {
+	// 	panic("failed to connect database")
+	// }
 
 	// Migrate the schema
 	//自动迁移数据库
-	db.AutoMigrate(&User{})
+	DB.AutoMigrate(&User{})
 
 	r := gin.Default()
 	r.GET("/ping/:id", ping)
@@ -52,8 +57,9 @@ func main() {
 		// 方法3: 结构体
 
 		data := User{
-			Name: "galaxy",
-			Age:  18,
+			FirstName: "galaxy",
+			LastName:  "guo",
+			Age:       18,
 		}
 
 		c.JSON(http.StatusOK, data)
@@ -172,6 +178,9 @@ func ping(c *gin.Context) {
 	id := c.Param("id")
 	firstname := c.DefaultQuery("firstname", "Guest")
 	lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
+	user := User{ID: id, FirstName: firstname, Age: 18, LastName: lastname}
+	DB.Create(&user)
+
 	c.JSON(200, gin.H{
 		"code":    200,
 		"message": "pong",
