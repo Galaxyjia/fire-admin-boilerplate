@@ -1,7 +1,6 @@
 package router
 
 import (
-	"backend/docs"
 	"backend/service"
 	"fmt"
 
@@ -13,7 +12,7 @@ import (
 )
 
 func Router() *gin.Engine {
-	docs.SwaggerInfo.BasePath = "/api/v1"
+	// docs.SwaggerInfo.BasePath = "/api/v1"
 
 	r := gin.Default()
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
