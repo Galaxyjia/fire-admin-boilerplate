@@ -85,6 +85,78 @@ paths:
       summary: user update
       tags:
       - Users
+  /v1/api/articles:
+    get:
+      consumes:
+      - application/json
+      description: get user list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: articles list
+      tags:
+      - Articles
+    post:
+      consumes:
+      - application/json
+      description: create user list
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: user create
+      tags:
+      - Articles
+  /v1/api/articles/:id:
+    delete:
+      consumes:
+      - application/json
+      description: delete user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: user delete
+      tags:
+      - Articles
+    get:
+      consumes:
+      - application/json
+      description: retrieve user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: user retrieve
+      tags:
+      - Articles
+    put:
+      consumes:
+      - application/json
+      description: update user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: user update
+      tags:
+      - Articles
 securityDefinitions:
   BasicAuth:
     type: basic

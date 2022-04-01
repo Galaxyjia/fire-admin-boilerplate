@@ -13,12 +13,6 @@ import (
 )
 
 func Router() *gin.Engine {
-	// db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
-	// // db.LogMode(true)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Println(model.DB)
 	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	r := gin.Default()
@@ -87,33 +81,11 @@ func Router() *gin.Engine {
 			})
 		})
 
-		apiRouters.GET("/articles", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "articles list",
-			})
-		})
-		apiRouters.POST("/articles", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "add articles",
-			})
-		})
-
-		apiRouters.GET("/articles/1", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "get articles 1",
-			})
-		})
-
-		apiRouters.PUT("/articles/1", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "put articles 1",
-			})
-		})
-		apiRouters.DELETE("/articles/1", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "delete articles 1",
-			})
-		})
+		apiRouters.GET("/articles", service.ArticleList)
+		apiRouters.POST("/articles", service.ArticleCreate)
+		apiRouters.GET("/articles/1", service.ArticleRetrieve)
+		apiRouters.PUT("/articles/1", service.ArticleUpdate)
+		apiRouters.DELETE("/articles/1", service.ArticleDelete)
 	}
 
 	return r
