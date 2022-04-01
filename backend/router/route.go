@@ -1,12 +1,20 @@
 package router
 
 import (
+	"backend/service"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Router() *gin.Engine {
+	// db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+	// // db.LogMode(true)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// fmt.Println(model.DB)
+
 	r := gin.Default()
 	r.GET("/routers", func(c *gin.Context) {
 		routers := r.Routes()
@@ -58,63 +66,17 @@ func Router() *gin.Engine {
 	// 路由组
 	adminRouters := r.Group("/admin")
 	{
-		adminRouters.GET("/users", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "users",
-			})
-		})
-		adminRouters.POST("/users", func(c *gin.Context) {
-
-			c.JSON(200, gin.H{
-				"message": "add users",
-			})
-		})
-		adminRouters.PUT("/users/1", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "put users 1",
-			})
-		})
-		adminRouters.DELETE("/users/1", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "delete users 1",
-			})
-		})
+		adminRouters.GET("/users", service.UserList)
+		adminRouters.POST("/users", service.UserCreate)
+		adminRouters.PUT("/users/1", service.UserUpdate)
+		adminRouters.DELETE("/users/1", service.UserDelete)
 	}
 
 	apiRouters := r.Group("/api/v1")
 	{
 		apiRouters.GET("/search", func(c *gin.Context) {
-
 			c.JSON(200, gin.H{
 				"message": "search list",
-			})
-		})
-
-		apiRouters.GET("/users", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "users list",
-			})
-		})
-		apiRouters.POST("/users", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "add users",
-			})
-		})
-
-		apiRouters.GET("/users/1", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "get users 1",
-			})
-		})
-
-		apiRouters.PUT("/users/1", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "put users 1",
-			})
-		})
-		apiRouters.DELETE("/users/1", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "delete users 1",
 			})
 		})
 

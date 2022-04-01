@@ -6,3 +6,12 @@ type User struct {
 	LastName  string `json:"lastname"`
 	Age       int    `json:"age"`
 }
+
+func GetUserList() {
+
+}
+
+func CreateUser() {
+	user := User{ID: "aas", FirstName: "John", LastName: "asdf", Age: 32}
+	DB.Create(&user)
+}
