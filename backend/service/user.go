@@ -2,6 +2,7 @@ package service
 
 import (
 	"backend/model"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,6 +21,7 @@ import (
 func UserList(c *gin.Context) {
 	model.GetUserList()
 	c.JSON(200, gin.H{
+		"code":    200,
 		"message": "list users",
 	})
 }
@@ -36,22 +38,30 @@ func UserList(c *gin.Context) {
 func UserCreate(c *gin.Context) {
 	model.CreateUser()
 	c.JSON(200, gin.H{
+		"code":    200,
 		"message": "add user",
 	})
 }
 
-// PingExample godoc
-// @Summary user retrieve
+// PingExample 	godoc
+// @Summary 	user retrieve
 // @Schemes
 // @Description retrieve user
-// @Tags Users
-// @Accept json
-// @Produce json
-// @Success 200 {string} Helloworld
-// @Router /admin/users/:id [get]
+// @Tags 		Users
+// @Accept 		json
+// @Produce 	json
+// @Param       id	path	string  true  "Account ID"
+// @Success 	200 {string} Helloworld
+// @Router 		/admin/users/{id} [get]
 func UserRetrieve(c *gin.Context) {
+	id := c.Param("id")
+	fmt.Println(id)
 	c.JSON(200, gin.H{
+		"code":    200,
 		"message": "retrieve user",
+		"data": gin.H{
+			"id": id,
+		},
 	})
 }
 
@@ -62,11 +72,18 @@ func UserRetrieve(c *gin.Context) {
 // @Tags Users
 // @Accept json
 // @Produce json
+// @Param       id	path	string  true  "Account ID"
 // @Success 200 {string} Helloworld
-// @Router /admin/users/:id [put]
+// @Router /admin/users/{id} [put]
 func UserUpdate(c *gin.Context) {
+	id := c.Param("id")
+	fmt.Println(id)
 	c.JSON(200, gin.H{
+		"code":    200,
 		"message": "update user",
+		"data": gin.H{
+			"id": id,
+		},
 	})
 }
 
@@ -77,10 +94,17 @@ func UserUpdate(c *gin.Context) {
 // @Tags Users
 // @Accept json
 // @Produce json
+// @Param       id	path	string  true  "Account ID"
 // @Success 200 {string} Helloworld
-// @Router /admin/users/:id [delete]
+// @Router /admin/users/{id} [delete]
 func UserDelete(c *gin.Context) {
+	id := c.Param("id")
+	fmt.Println(id)
 	c.JSON(200, gin.H{
+		"code":    200,
 		"message": "delete user",
+		"data": gin.H{
+			"id": id,
+		},
 	})
 }

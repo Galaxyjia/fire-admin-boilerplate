@@ -69,7 +69,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/admin/users/:id": {
+        "/admin/users/{id}": {
             "get": {
                 "description": "retrieve user",
                 "consumes": [
@@ -82,6 +82,15 @@ const docTemplate = `{
                     "Users"
                 ],
                 "summary": "user retrieve",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -103,6 +112,15 @@ const docTemplate = `{
                     "Users"
                 ],
                 "summary": "user update",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -124,6 +142,15 @@ const docTemplate = `{
                     "Users"
                 ],
                 "summary": "user delete",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
