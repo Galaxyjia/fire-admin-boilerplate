@@ -1,10 +1,10 @@
 package model
 
 type Article struct {
-	ID        string `json:"id"`
-	FirstName string `json:"firstname"`
-	LastName  string `json:"lastname"`
-	Age       int    `json:"age"`
+	ID        string `json:"id" example:"1"`
+	FirstName string `json:"firstname" example:"1"`
+	LastName  string `json:"lastname" example:"1"`
+	Age       int    `json:"age" example:"1"`
 }
 
 func GetArticleList() {
