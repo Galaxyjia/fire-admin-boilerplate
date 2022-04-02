@@ -19,7 +19,6 @@ import (
 // @Router /admin/users [get]
 func UserList(c *gin.Context) {
 	model.GetUserList()
-	// model.CreateUser()
 	c.JSON(200, gin.H{
 		"message": "list users",
 	})

@@ -41,7 +41,7 @@ Golang+Gin+Jwt+Swagger
 * gin的分组
 * 路由函数拆分，service文件夹
 * gorm的引入
-* gorm的使用，test文件夹
+* gorm的使用，test文件夹,安装 Test Explorer UI插件
 * model文件夹
 * 整合swagger,gin-swagger
 * swag init 然后重启更新
