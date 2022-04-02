@@ -221,3 +221,18 @@ func pingCreate(c *gin.Context) {
 	})
 }
 ```
+
+## swagger
+@Param 配置 body
+```
+// PingExample godoc
+// @Summary user create
+// @Schemes
+// @Description create user list
+// @Tags Users
+// @Accept json
+// @Produce json
+// @Param       data	body	string  true  "Request Data" SchemaExample({\r\n"id":"kkkkasdf",\r\n"firstname":"gaalaxy",\r\n"lastname":"fasdfa",\r\n"age":12\r\n})
+// @Success 200 {object} model.User
+// @Router /admin/users [post]
+```

@@ -59,11 +59,23 @@ const docTemplate = `{
                     "Users"
                 ],
                 "summary": "user create",
+                "parameters": [
+                    {
+                        "description": "Request Data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "{\r\n\"id\":\"kkkkasdf\",\r\n\"firstname\":\"gaalaxy\",\r\n\"lastname\":\"fasdfa\",\r\n\"age\":12\r\n}"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/model.User"
                         }
                     }
                 }
@@ -267,6 +279,29 @@ const docTemplate = `{
                             "type": "string"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.User": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "firstname": {
+                    "type": "string",
+                    "example": "1"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "1"
+                },
+                "lastname": {
+                    "type": "string",
+                    "example": "1"
                 }
             }
         }

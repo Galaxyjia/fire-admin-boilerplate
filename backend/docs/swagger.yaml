@@ -1,3 +1,19 @@
+definitions:
+  model.User:
+    properties:
+      age:
+        example: 1
+        type: integer
+      firstname:
+        example: "1"
+        type: string
+      id:
+        example: "1"
+        type: string
+      lastname:
+        example: "1"
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -31,13 +47,21 @@ paths:
       consumes:
       - application/json
       description: create user list
+      parameters:
+      - description: Request Data
+        in: body
+        name: data
+        required: true
+        schema:
+          example: "{\r\n\"id\":\"kkkkasdf\",\r\n\"firstname\":\"gaalaxy\",\r\n\"lastname\":\"fasdfa\",\r\n\"age\":12\r\n}"
+          type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/model.User'
       summary: user create
       tags:
       - Users

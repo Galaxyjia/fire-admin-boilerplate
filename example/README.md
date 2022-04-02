@@ -46,4 +46,5 @@ Golang+Gin+Jwt+Swagger
 * 整合swagger,gin-swagger
 * swag init 然后重启更新
 * 加入exec.Command("swag", "init"),自动执行swag init命令
-* 配置fresh,过滤掉docs（不配置会无限循环）
+* 配置fresh,过滤掉docs（不配置会无限循环），新建runner.conf,ignored中添加docs
+

@@ -3,6 +3,7 @@ package service
 import (
 	"backend/model"
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -33,10 +34,17 @@ func UserList(c *gin.Context) {
 // @Tags Users
 // @Accept json
 // @Produce json
-// @Success 200 {string} Helloworld
+// @Param       data	body	string  true  "Request Data" SchemaExample({\r\n"id":"kkkkasdf",\r\n"firstname":"gaalaxy",\r\n"lastname":"fasdfa",\r\n"age":12\r\n})
+// @Success 200 {object} model.User
 // @Router /admin/users [post]
 func UserCreate(c *gin.Context) {
-	model.CreateUser()
+	var user model.User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	model.CreateUser(user.ID, user.FirstName, user.LastName, user.Age)
 	c.JSON(200, gin.H{
 		"code":    200,
 		"message": "add user",
